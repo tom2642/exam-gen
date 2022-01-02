@@ -1,5 +1,6 @@
 class Question < ApplicationRecord
   belongs_to :user
+  has_many :sub_questions, dependent: :destroy
 
   enum subject: [
     :Biology, :'Business, Accounting and Financial Studies',
