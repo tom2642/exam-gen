@@ -15,42 +15,45 @@ billy = User.create!(
 
 billy.questions.create!(
   [
-    question: 'Which of the following factors will affect the demand for Samsung smartphones?
-(1)	A change in people’s income
-(2)	A change in the price of iPhones
-(3)	A change in the price of Samsung smartphones
-(4)	A change in the production cost of smartphones',
-    choice: 'A.	(1) and (2) only
-B.	(2) and (3) only
-C.	(3) and (4) only
-D.	(1), (2), (3) and (4)',
-    answer: 'A',
+    multiple_choice_question_or_short_question_text:
+      ['Which of the following factors will affect the demand for Samsung smartphones?',
+       '(1)	A change in people’s income',
+       '(2)	A change in the price of iPhones',
+       '(3)	A change in the price of Samsung smartphones',
+       '(4)	A change in the production cost of smartphones'],
+    choice: ['A.	(1) and (2) only',
+             'B.	(2) and (3) only',
+             'C.	(3) and (4) only',
+             'D.	(1), (2), (3) and (4)'],
+    correct_choice: 'A',
     score: 1,
     grade: 12,
     subject: :Economics
   ],
   [
-    question: 'Suppose the demand curve for a tour package to Korea is downward sloping.' \
-              'Which of the following CANNOT be constant when we move from one point to another on the demand curve?',
-    choice: 'A.	The price of the tour package to Korea
-B.	The price of a tour package to Japan
-C.	People’s income
-D.	The price of a travel guidebook to Korea',
-    answer: 'A',
+    multiple_choice_question_or_short_question_text:
+      ['Suppose the demand curve for a tour package to Korea is downward sloping. ' \
+       'Which of the following CANNOT be constant when we move from one point to another on the demand curve?'],
+    choice: ['A.	The price of the tour package to Korea',
+             'B.	The price of a tour package to Japan',
+             'C.	People’s income',
+             'D.	The price of a travel guidebook to Korea'],
+    correct_choice: 'A',
     score: 1,
     grade: 12,
     subject: :Economics
   ],
   [
-    question: 'After changing to a better paid job, Josie eats spaghetti more frequently but pizza less frequently. To Josie,
-(1)	spaghetti is a normal good.
-(2)	pizza is an inferior good.
-(3)	spaghetti and pizza are substitutes.',
-    choice: 'A.	(1) and (2) only
-B.	(1) and (3) only
-C.	(2) and (3) only
-D.	(1), (2) and (3)',
-    answer: 'A',
+    multiple_choice_question_or_short_question_text:
+      ['After changing to a better paid job, Josie eats spaghetti more frequently but pizza less frequently. To Josie,',
+       '(1)	spaghetti is a normal good.',
+       '(2)	pizza is an inferior good.',
+       '(3)	spaghetti and pizza are substitutes.'],
+    choice: ['A.	(1) and (2) only',
+             'B.	(1) and (3) only',
+             'C.	(2) and (3) only',
+             'D.	(1), (2) and (3)'],
+    correct_choice: 'A',
     score: 1,
     grade: 12,
     subject: :Economics
