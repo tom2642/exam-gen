@@ -2,7 +2,7 @@ class Question < ApplicationRecord
   belongs_to :user
   has_many :sub_questions, dependent: :destroy
 
-  validates :multiple_choice_question_or_short_question_text, :choice, :correct_choice, :score, :grade, :subject,
+  validates :question, :choice, :answer, :score, :grade, :subject,
             presence: true
   validates :score, numericality: { in: 1..100 }
   validates :grade, numericality: { in: 1..15 }
