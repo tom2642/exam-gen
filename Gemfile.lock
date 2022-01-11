@@ -123,6 +123,7 @@ GEM
     nokogiri (1.12.5-x86_64-linux)
       racc (~> 1.4)
     orm_adapter (0.5.0)
+    pandoc-ruby (2.1.6)
     pg (1.2.3)
     pry (0.13.1)
       coderay (~> 1.1)
@@ -251,6 +252,7 @@ DEPENDENCIES
   font-awesome-sass
   jbuilder (~> 2.7)
   listen (~> 3.3)
+  pandoc-ruby
   pg (~> 1.1)
   pry-byebug
   pry-rails
