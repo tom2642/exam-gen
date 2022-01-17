@@ -1,5 +1,30 @@
-<div class="what">
-  <div class="container">
-    <h1>Exam</h1>
+<div class="home-main">
+  <div class="home-header navbar navbar-expand-sm navbar-light navbar-lewagon">
+    <%= link_to root_path, class: "navbar-brand" do %>
+      <h4>ExamGen</h4>
+    <% end %>
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <%= link_to "Log in", new_user_session_path, class: "nav-link" %>
+      </li>
+    </ul>
+  </div>
+
+  <div class="home-main-text container">
+    <h1>We deal with Microsoft Word®<br>so you don't have to</h1>
+    <p>
+      Simply upload exam questions by filling in forms or uploading documents.<br>
+      After that, select the questions you want.
+      Within a few clicks, you will have an exam paper without dealing with all the copy, paste and formatting.
+    </p>
+    <div>
+      <%= link_to 'Sign up', new_user_registration_path, class: "btn btn-success" %>
+    </div>
+  </div>
+
+  <div class="home-footer navbar navbar-expand-sm navbar-light navbar-lewagon">
+    <%= link_to 'https://github.com/tom2642/exam-gen' do %>
+      <%= icon('fab', 'github') %>
+    <% end %>
   </div>
 </div>
