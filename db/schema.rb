@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_03_142435) do
+ActiveRecord::Schema.define(version: 2022_01_18_062108) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,12 +19,12 @@ ActiveRecord::Schema.define(version: 2022_01_03_142435) do
     t.jsonb "question", default: "[]", null: false
     t.jsonb "choice", default: "[]", null: false
     t.string "answer"
-    t.integer "score"
     t.integer "grade"
     t.integer "subject"
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "topic"
     t.index ["user_id"], name: "index_questions_on_user_id"
   end
 
