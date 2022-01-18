@@ -1,6 +1,6 @@
 class Question < ApplicationRecord
   belongs_to :user
-  has_many :sub_questions, dependent: :destroy
+  has_many_attached :photos
 
   validates :question, :choice, :answer, :score, :grade, :subject,
             presence: true
