@@ -2,9 +2,8 @@ class Question < ApplicationRecord
   belongs_to :user
   has_many_attached :images
 
-  validates :question, :choice, :answer, :score, :grade, :subject,
+  validates :question, :answer, :grade, :subject,
             presence: true
-  validates :score, numericality: { in: 1..100 }
   validates :grade, numericality: { in: 1..15 }
 
   enum subject: [
