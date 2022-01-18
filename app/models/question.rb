@@ -1,6 +1,6 @@
 class Question < ApplicationRecord
   belongs_to :user
-  has_many_attached :photos
+  has_many_attached :images
 
   validates :question, :choice, :answer, :score, :grade, :subject,
             presence: true
