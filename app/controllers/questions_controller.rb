@@ -1,8 +1,12 @@
 class QuestionsController < ApplicationController
   def index
+    @abc = Question.new
+    authorize @abc
   end
 
   def new
+    @abc = Question.new
+    authorize @abc
   end
 
   def create
