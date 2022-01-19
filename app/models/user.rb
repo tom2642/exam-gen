@@ -5,5 +5,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :rememberable, :validatable
 
-  has_many :questions, dependent: :destroy
+  has_many :subjects, dependent: :destroy
+  has_many :questions, -> { distinct }, through: :subjects, dependent: :destroy
+  has_many :topics, through: :questions
 end
