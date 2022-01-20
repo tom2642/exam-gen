@@ -7,5 +7,4 @@ class User < ApplicationRecord
 
   has_many :subjects, dependent: :destroy
   has_many :questions, -> { distinct }, through: :subjects, dependent: :destroy
-  has_many :topics, -> { distinct }, through: :questions
 end

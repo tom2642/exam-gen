@@ -1,9 +1,11 @@
 class Subject < ApplicationRecord
   belongs_to :user
+  has_many :questions, dependent: :destroy
+  has_many :topics, -> { distinct }, through: :questions
 
   validates :grade, :name, presence: true
   validates :grade, inclusion: { in: 1..15 }, numericality: { only_integer: true }
-  validates :grade, uniqueness: { scope: :name }
+  validates :grade, uniqueness: { scope: %i[name user_id] }
 
   enum name: [
     :Biology, :'Business, Accounting and Financial Studies',

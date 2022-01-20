@@ -1,3 +1,5 @@
 class Topic < ApplicationRecord
-  belongs_to :question
+  has_many :questions
+
+  validates :name, presence: true, uniqueness: true
 end
