@@ -4,9 +4,15 @@
     <%= f.input :name, label: 'Subject', collection: Subject.names.keys %>
     <%= f.submit 'Add', class: "btn btn-default btn-success" %>
   <% end %>
-  <% @subjects.each do |subject| %>
-    <p><%= subject.grade %></p>
-    <p><%= subject.name %></p>
-    <%= link_to 'delete', subject_path(subject), method: :delete %>
-  <% end %>
+  <div class="subjects-grid">
+    <% @subjects.each do |subject| %>
+      <div class="subject">
+        <p>Grade <%= subject.grade %></p>
+        <p><%= subject.name %></p>
+        <p><%= subject.questions.count %> questions</p>
+        <%= link_to 'delete', subject_path(subject), method: :delete %>
+        <%= link_to 'delete', subject_path(subject), method: :delete %>
+      </div>
+    <% end %>
+  </div>
 </div>
