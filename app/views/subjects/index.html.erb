@@ -1,2 +1,12 @@
-<h1>Subjects#index</h1>
-<p>Find me in app/views/subjects/index.html.erb</p>
+<div class="container">
+  <%= simple_form_for @new_subject do |f| %>
+    <%= f.input :grade, collection: 1..15 %>
+    <%= f.input :name, label: 'Subject', collection: Subject.names.keys %>
+    <%= f.submit 'Add', class: "btn btn-default btn-success" %>
+  <% end %>
+  <% @subjects.each do |subject| %>
+    <p><%= subject.grade %></p>
+    <p><%= subject.name %></p>
+    <%= link_to 'delete', subject_path(subject), method: :delete %>
+  <% end %>
+</div>
