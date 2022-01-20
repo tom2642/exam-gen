@@ -1,9 +1,9 @@
 class Subject < ApplicationRecord
   belongs_to :user
 
-  validates :grade, :name,
-            presence: true
-  validates :grade, numericality: { in: 1..15 }
+  validates :grade, :name, presence: true
+  validates :grade, inclusion: { in: 1..15 }, numericality: { only_integer: true }
+  validates :grade, uniqueness: { scope: :name }
 
   enum name: [
     :Biology, :'Business, Accounting and Financial Studies',

@@ -11,8 +11,3 @@ billy = User.create!(
   password: 'billy123',
   billy: true
 )
-
-billy.subjects.create!(
-  grade: 1,
-  name: 1
-)
