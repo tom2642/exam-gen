@@ -1,6 +1,6 @@
 class QuestionsController < ApplicationController
   def index
-    @questions = Subject.find(params(:subject_id)).questions
+    @questions = policy_scope(Subject).find(params[:subject_id]).questions
   end
 
   def new

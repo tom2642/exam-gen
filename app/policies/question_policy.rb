@@ -1,7 +1,7 @@
 class QuestionPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
-      scope.where
+      scope.where(user: user)
     end
   end
 
