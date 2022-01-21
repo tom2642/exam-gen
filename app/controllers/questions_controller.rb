@@ -2,7 +2,7 @@ class QuestionsController < ApplicationController
   include Parseable
 
   def index
-    @questions = policy_scope(Question).where(subject: @params[:subject_id])
+    @questions = policy_scope(Question).where(subject: params[:subject_id])
   end
 
   def new
