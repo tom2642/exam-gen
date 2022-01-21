@@ -1,7 +1,7 @@
 class QuestionPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
-      scope.where(user: user)
+      scope.joins(:subject).where(subject: { user: user })
     end
   end
 
