@@ -8,9 +8,11 @@ module Parseable
       file.write(uploaded_file.read)
     end
 
-    # convert the docx into string(markdown) and split into seperate questions
+    # convert the docx into string(markdown)
     raw_strings = PandocRuby.convert(["tmp/docx/#{uploaded_file.original_filename}"], '--from=docx', '--to=markdown', '--extract-media=tmp/')
-                            .split(/Question code: .+\n\n/)
+                            .split(/Short Questions/)
+    raw_strings.delete_at(1) # delete short questions
+    raw_strings = raw_strings.first.split(/Question code: .+\n\n/) # split into seperate questions
     topic = raw_strings.first.gsub(/\*\*Chapter \d+ /, '').gsub(/\*\*[\s\S]+/, '')
     raw_strings.delete_at(0) # delete the part before the first question
     # raw_string #=> Question...\n\nA. Choice...\n\nAnswer:\n\nB\n\n....
@@ -28,7 +30,7 @@ module Parseable
         end
       end
 
-      splited_strings = raw_string.strip.split("Answer:\n\n") # [0] #=> question and choices, [1] #=> answer
+      splited_strings = raw_string.strip.split(/Answer:\W*/) # [0] #=> question and choices, [1] #=> answer
 
       # Parse question
       question_and_choices = splited_strings.first.strip.split('A. ')
