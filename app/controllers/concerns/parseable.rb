@@ -17,7 +17,7 @@ module Parseable
     raw_strings.each_with_index do |raw_string, index|
       # seperate images into different folder
       if %r{.*!\[]\(tmp/media/image.*}.match?(raw_string)
-        Dir.mkdir("tmp/media/#{index}/")
+        FileUtils.mkdir_p("tmp/media/#{index}")
         raw_string.count("![](tmp/media/").times do
           FileUtils.mv Dir["tmp/media/*"][0], "tmp/media/#{index}"
         end
