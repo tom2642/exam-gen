@@ -13,11 +13,17 @@ class QuestionsController < ApplicationController
     results = parse(params[:docx])
     results.each do |result|
       question = Question.new(result)
+      question.subject = Subject.find(params[:subject_id])
       authorize question
-      # save question
-      # image1.jpg -> #{question.id}_1.jpg
-      # in question.question, gsub image1.jpg -> #{question.id}_1.jpg
-      # save question
+      question.save! # save to get id
+      Dir["tmp/media/*"].each do |fname| # image1.jpg -> #{question.id}_1.jpg
+        question.images.attach(io: File.open(fname), filename: fname.gsub("image", "#{question.id}_"))
+      end
+      question.question.gsub!(%r{!\[]\(tmp/media/image}, 'image' => "#{question.id}_")
+      question.choices.map! do |choice|
+        choice.gsub(%r{!\[]\(tmp/media/image}, 'image' => "#{question.id}_")
+      end
+      question.save!
     end
 
     redirect_to new_subject_question_path

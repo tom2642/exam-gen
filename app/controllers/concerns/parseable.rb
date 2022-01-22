@@ -11,6 +11,7 @@ module Parseable
                             .split(/Question code: .+\n\n/)
     raw_strings.delete_at(0)
     # raw_string #=> Question...\n\nA. Choice...\n\nAnswer:\n\nB\n\n....
+    File.delete(Rails.root.join('tmp', 'docx', uploaded_file.original_filename))
 
     results = []
     raw_strings.each do |raw_string|
