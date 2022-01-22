@@ -17,9 +17,11 @@ module Parseable
     raw_strings.each_with_index do |raw_string, index|
       # seperate images into different folder
       if %r{.*!\[]\(tmp.*}.match?(raw_string)
-        FileUtils.mkdir_p("tmp/media/#{index}")
+        FileUtils.mkdir_p("tmp/media/#{index}") # create a folder for every questions that have images
         raw_string.scan("![](tmp").size.times do
-          FileUtils.mv Dir["tmp/media/*"][1], "tmp/media/#{index}/#{Dir["tmp/media/*"][1].gsub('tmp/media/', '')}"
+          # For question having n images, move the first n images in media/ to media/#{index}/
+          first_image = Dir["tmp/media/*"].select{ |path| path.include?(".") }[0] # only select the files
+          FileUtils.mv first_image, "tmp/media/#{index}/#{first_image.gsub('tmp/media/', '')}"
         end
       end
 
