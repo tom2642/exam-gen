@@ -54,4 +54,8 @@ module Parseable
     end
     return results
   end
+
+  def to_html(question)
+    PandocRuby.convert(question, '--from=markdown', '--to=html')
+  end
 end

@@ -3,6 +3,10 @@ class QuestionsController < ApplicationController
 
   def index
     @questions = policy_scope(Question).where(subject: params[:subject_id])
+    @question_htmls = []
+    @questions.each do |question|
+      @question_htmls.push(to_html(question.question))
+    end
   end
 
   def new

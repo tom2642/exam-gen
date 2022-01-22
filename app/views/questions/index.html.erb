@@ -1,5 +1,7 @@
-<h1>Questions#index</h1>
-<p>Find me in app/views/questions/index.html.erb</p>
-<% @questions.each do |q| %>
-  <p><%= q.question %></p>
+<!--
+<% @question_htmls.each do |q| %>
+  <%= q %>
 <% end %>
+-->
+
+<%= sanitize @question_htmls[1] %>
