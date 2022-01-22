@@ -4,17 +4,25 @@ require 'pandoc-ruby'
 module Parseable
   def parse(uploaded_file)
     File.open(Rails.root.join('tmp', 'docx', uploaded_file.original_filename), 'wb') do |file|
-      file.write(uploaded_file.read)
+      file.write(uploaded_file.read) # write the tmp file io object to a file
     end
 
     raw_strings = PandocRuby.convert(["tmp/docx/#{uploaded_file.original_filename}"], '--from=docx', '--to=markdown', '--extract-media=tmp/')
                             .split(/Question code: .+\n\n/)
-    raw_strings.delete_at(0)
+    raw_strings.delete_at(0) # seperate questions
     # raw_string #=> Question...\n\nA. Choice...\n\nAnswer:\n\nB\n\n....
-    File.delete(Rails.root.join('tmp', 'docx', uploaded_file.original_filename))
+    File.delete(Rails.root.join('tmp', 'docx', uploaded_file.original_filename)) # delete the docx
 
     results = []
-    raw_strings.each do |raw_string|
+    raw_strings.each_with_index do |raw_string, index|
+      # seperate images into different folder
+      if %r{.*!\[]\(tmp/media/image.*}.match?(raw_string)
+        Dir.mkdir("tmp/media/#{index}/")
+        raw_string.count("![](tmp/media/").times do
+          FileUtils.mv Dir["tmp/media/*"][0], "tmp/media/#{index}"
+        end
+      end
+
       splited_strings = raw_string.strip.split("Answer:\n\n") # [0] #=> question and choices, [1] #=> answer
 
       # Parse question
