@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require 'pandoc-ruby'
 
-module Parseable
+module DocxConvertable
   def docx_to_md(uploaded_file)
     # write the tmp file io object to a file
     File.open(Rails.root.join('tmp', 'docx', uploaded_file.original_filename), 'wb') do |file|
@@ -36,6 +36,9 @@ module Parseable
       question_and_choices = splited_strings.first.strip.split('A. ')
       question = question_and_choices.first.strip.gsub('> ', '').gsub("\n>\n", "\n\n").split("\n\n") # strip unwanted markdown code
       question.each { |line| line.gsub!(/\*\*/, '') unless line.include?('-------') } # remove bold unless table
+      question[0] = "#{question[0]}\n\n" # first line of quesiton, \n\n = next line
+      question[1..].each_with_index { |line, i| question[i + 1] = "    #{line}\n\n" } # 4 leading spaces = list item
+      question = question.join
 
       # Parse choices
       unless question_and_choices[1].nil? # choice is not nil(due to not supporting alt content of docx)

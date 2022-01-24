@@ -1,12 +1,12 @@
 class QuestionsController < ApplicationController
   include Parseable
+  include HtmlConvertable
+  include ImagesAttachable
+  include Objectifyable
 
   def index
-    @questions = policy_scope(Question).where(subject: params[:subject_id])
-    @question_htmls = []
-    @questions.each do |question|
-      @question_htmls.push(to_html(question.question))
-    end
+    questions = policy_scope(Question).where(subject: params[:subject_id])
+    @htmls = md_to_html(questions) # HtmlConvertable
   end
 
   def new
@@ -14,29 +14,20 @@ class QuestionsController < ApplicationController
   end
 
   def create
-    results = parse(params[:docx])
-    topic = Topic.new(name: results.first[:topic])
-    topic.valid? ? topic.save! : topic = Topic.where(name: results.first[:topic]).first
-    results.each_with_index do |result, index|
-      result[:topic] = topic
+    parsed_results = docx_to_md(params[:docx]) # Parseable
+
+    # save every parsed results to db
+    parsed_results.each_with_index do |result, index|
+      # result[:topic], string -> Topic object
+      objectify_topic(result) unless result[:topic].nil?
       question = Question.new(result)
       question.subject = Subject.find(params[:subject_id])
       authorize question
-      question.save! # save to get id
-
-      # for all the images inside the folder, attach imagen.jpg as #{question.id}_n.jpg to question
-      unless Dir["tmp/media/#{index}"].empty? # the question doesn't have a image
-        Dir["tmp/media/#{index}/*"].sort.each do |fname|
-          question.images.attach(io: File.open(fname), filename: fname.gsub(%r{tmp/media/./image}, "#{question.id}_"))
-        end
-      end
-
-      # change the markdown in question that indicates the path of its images
-      question.question.gsub!(%r{!\[]\(tmp//media/image}, "![](tmp//media/#{question.id}_")
       question.save!
+      attach_images(question, index)
     end
 
-    FileUtils.rm_rf(Dir['tmp/media/*']) # delete local images
-    redirect_to new_subject_question_path
+    FileUtils.rm_rf(Dir['tmp/media/*']) # delete local tmp images
+    redirect_to dashboard_path
   end
 end

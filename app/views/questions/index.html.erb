@@ -1,7 +1,9 @@
-<!--
-<% @question_htmls.each do |q| %>
-  <%= q %>
-<% end %>
--->
-
-<%= sanitize @question_htmls[1] %>
+<div class="generator">
+  <div class="questions-display">
+    <% @htmls.each do |html| %>
+      <%= html.html_safe %>
+    <% end %>
+  </div>
+  <div>
+  </div>
+</div>

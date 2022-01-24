@@ -7,7 +7,7 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 puts "Generating Users..."
-users = User.create!(
+User.create!(
   [
     { email: 'billy@billy.com', password: 'billy123', billy: true }
   ]
