@@ -1,9 +1,14 @@
-<div class="generator">
-  <div class="questions-display">
-    <% @htmls.each do |html| %>
-      <%= html.html_safe %>
-    <% end %>
-  </div>
-  <div>
+<div class="generator-page">
+  <%= render 'shared/navbar' %>
+  <div class="generator-flex">
+    <div class="questions-display">
+      <% @htmls.each do |html| %>
+        <div class="question">
+          <%= html.html_safe %>
+        </div>
+      <% end %>
+    </div>
+    <div>
+    </div>
   </div>
 </div>

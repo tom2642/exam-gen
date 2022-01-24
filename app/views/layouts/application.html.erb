@@ -14,7 +14,8 @@
   </head>
 
   <body>
-    <% if action_name != "home" || user_signed_in? %>
+    <% if (action_name != "home") &&
+          !(controller_name == "questions" && action_name == "index") %>
       <%= render 'shared/navbar' %>
     <% end %>
     <%= render 'shared/flashes' %>

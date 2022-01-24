@@ -1,7 +1,19 @@
-.generator {
+.generator-page {
+  max-height: 100vh;
   display: flex;
+  flex-direction: column;
+}
+
+.generator-flex {
+  display: flex;
+  min-height: 0;
 }
 
 .questions-display {
-  width: 600px;
+  width: 50vw;
+  overflow-y: scroll;
+}
+
+.question {
+  background-color: white;
 }
