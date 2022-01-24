@@ -6,7 +6,7 @@ class QuestionsController < ApplicationController
 
   def index
     questions = policy_scope(Question).where(subject: params[:subject_id])
-    @htmls = md_to_html(questions) # HtmlConvertable
+    @questions_and_htmls = md_to_html(questions) # HtmlConvertable
   end
 
   def new
@@ -29,5 +29,9 @@ class QuestionsController < ApplicationController
 
     FileUtils.rm_rf(Dir['tmp/media/*']) # delete local tmp images
     redirect_to dashboard_path
+  end
+
+  def generate
+    raise
   end
 end

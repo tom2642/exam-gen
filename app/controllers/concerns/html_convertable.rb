@@ -3,15 +3,17 @@ require 'pandoc-ruby'
 
 module HtmlConvertable
   def md_to_html(questions)
-    mds = []
+    questions_and_htmls = []
     questions.each do |question|
-      mds.push("#{question[:question].join("\n\n")}\n\n#{question[:choices]&.join("\n\n")}")
+      questions_and_htmls.push(
+        {
+          question: question,
+          html: PandocRuby.convert("#{question[:question].join("\n\n")}\n\n#{question[:choices]&.join("\n\n")}",
+                                   '--from=markdown', '--to=html')
+        }
+      )
     end
 
-    htmls = []
-    mds.each do |md|
-      htmls.push(PandocRuby.convert(md, '--from=markdown', '--to=html'))
-    end
-    return htmls
+    return questions_and_htmls
   end
 end

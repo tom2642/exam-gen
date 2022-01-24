@@ -1,14 +1,19 @@
 <div class="generator-page">
   <%= render 'shared/navbar' %>
-  <div class="generator-flex">
-    <div class="questions-display">
-      <% @htmls.each do |html| %>
-        <div class="question">
-          <%= html.html_safe %>
-        </div>
-      <% end %>
-    </div>
-    <div>
-    </div>
-  </div>
+  <%=  form_with url: generate_path, html: {class:"generator-flex"} do |f| %>
+
+      <div class="questions-display">
+        <% @questions_and_htmls.each do |question_and_html| %>
+          <div class="question">
+            <%= check_box_tag "question_id[]", question_and_html[:question][:id] %>
+            <%= question_and_html[:html].html_safe %>
+          </div>
+        <% end %>
+      </div>
+
+      <div>
+          <%= f.submit "Submit" %>
+      </div>
+
+  <% end %>
 </div>
