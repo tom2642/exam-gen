@@ -5,14 +5,16 @@
       <div class="questions-display">
         <% @questions_and_htmls.each do |question_and_html| %>
           <div class="question">
-            <%= check_box_tag "question_id[]", question_and_html[:question][:id] %>
-            <%= question_and_html[:html].html_safe %>
+            <%= f.check_box :question_id, {multiple: true, id: "question_id_#{question_and_html[:question][:id]}", style: "display:none;"}, question_and_html[:question][:id], false %>
+            <label for="<%= "question_id_#{question_and_html[:question][:id]}" %>">
+              <%= question_and_html[:html].html_safe %>
+            </label>
           </div>
         <% end %>
       </div>
 
       <div>
-          <%= f.submit "Submit" %>
+        <%= f.submit "Submit" %>
       </div>
 
   <% end %>
