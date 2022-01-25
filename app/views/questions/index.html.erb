@@ -1,11 +1,11 @@
 <div class="generator-page">
   <%= render 'shared/navbar' %>
-  <%=  form_with url: generate_path, html: {class:"generator-flex"} do |f| %>
+  <%=  form_with url: download_docx_path, html: {class:"generator-flex"} do |f| %>
 
       <div class="questions-display">
         <% @questions_and_htmls.each do |question_and_html| %>
           <div class="question">
-            <%= f.check_box :question_id, {multiple: true, id: "question_id_#{question_and_html[:question][:id]}", style: "display:none;"}, question_and_html[:question][:id], false %>
+            <%= f.check_box :question_ids, {multiple: true, id: "question_id_#{question_and_html[:question][:id]}", style: "display:none;"}, question_and_html[:question][:id], false %>
             <label for="<%= "question_id_#{question_and_html[:question][:id]}" %>">
               <%= question_and_html[:html].html_safe %>
             </label>

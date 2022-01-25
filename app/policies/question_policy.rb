@@ -8,4 +8,8 @@ class QuestionPolicy < ApplicationPolicy
   def create?
     true
   end
+
+  def download_docx?
+    record.subject.user == user
+  end
 end

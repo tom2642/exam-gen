@@ -2,56 +2,25 @@
 require 'pandoc-ruby'
 
 module DocxConvertable
-  def docx_to_md(uploaded_file)
-    # write the tmp file io object to a file
-    File.open(Rails.root.join('tmp', 'docx', uploaded_file.original_filename), 'wb') do |file|
-      file.write(uploaded_file.read)
+  def send_docx(selected_questions)
+    fname = "grade#{selected_questions.first.subject[:grade]}_#{selected_questions.first.subject[:name]}"
+    send_data md_to_docx(selected_questions), filename: "#{fname}.docx"
+  end
+
+  private
+
+  def md_to_docx(selected_questions)
+    result_string = "There are #{selected_questions.size} questions in this paper. Choose the **BEST** answer for\neach question.\n\n**1 question, 1 mark.**\n\n<br>\n\n" # markdown
+    selected_questions.each_with_index do |selected_question, i|
+      result_string += "#{i + 1}.  " # 2 spaces = cast the whole quesiton into a list
+      result_string += "#{selected_question[:question][0]}\n\n" # first line of quesiton, \n\n = next line
+      selected_question[:question][1..].each { |line| result_string += "    #{line}\n\n" } # 4 leading spaces = list item
+
+      selected_question[:choices]&.each { |choice| result_string += "    #{choice}\n\n" } # Insert choices, 4 leading spaces = list item
+      result_string += "<br>\n\n" # empty line after whole question
     end
+    result_string += "<br>\n\n**END OF PAPER**\n"
 
-    # convert the docx into string(markdown)
-    raw_strings = PandocRuby.convert(["tmp/docx/#{uploaded_file.original_filename}"], '--from=docx', '--to=markdown', '--extract-media=tmp/')
-                            .split(/Short Questions/)
-    raw_strings.delete_at(1) # delete short questions
-    raw_strings = raw_strings.first.split(/Question code: .+\n\n/) # split into seperate questions
-    topic = raw_strings.first.gsub(/\*\*Chapter \d+ /, '').gsub(/\*\*[\s\S]+/, '')
-    raw_strings.delete_at(0) # delete the part before the first question
-    # raw_string #=> Question...\n\nA. Choice...\n\nAnswer:\n\nB\n\n....
-    File.delete(Rails.root.join('tmp', 'docx', uploaded_file.original_filename)) # delete the docx
-
-    results = []
-    raw_strings.each_with_index do |raw_string, index|
-      # seperate images into different folder, each folder for one question
-      if %r{.*!\[]\(tmp.*}.match?(raw_string)
-        FileUtils.mkdir_p("tmp/media/#{index}") # create a folder for every questions that have images
-        raw_string.scan("![](tmp").size.times do
-          # For question having n images, move the first n images in media/ to media/#{index}/
-          first_image = Dir["tmp/media/*"].select { |path| path.include?("image") }.min # only select the files
-          FileUtils.mv first_image, "tmp/media/#{index}/#{first_image.gsub('tmp/media/', '')}"
-        end
-      end
-
-      splited_strings = raw_string.strip.split(/Answer:\W*/) # [0] #=> question and choices, [1] #=> answer
-
-      # Parse question
-      question_and_choices = splited_strings.first.strip.split('A. ')
-      question = question_and_choices.first.strip.gsub('> ', '').gsub("\n>\n", "\n\n").split("\n\n") # strip unwanted markdown code
-      question.each { |line| line.gsub!(/\*\*/, '') unless line.include?('-------') } # remove bold unless table
-      question[0] = "#{question[0]}\n\n" # first line of quesiton, \n\n = next line
-      question[1..].each_with_index { |line, i| question[i + 1] = "    #{line}\n\n" } # 4 leading spaces = list item
-      question = question.join
-
-      # Parse choices
-      unless question_and_choices[1].nil? # choice is not nil(due to not supporting alt content of docx)
-        choices = "A. #{question_and_choices[1]}".strip.split("\n\n") # split choices (A/B/C/D) into an array
-        choices.each do |choice|
-          choice.gsub!(/[A-Z]\. \(/, "#{choice[0]}. \\(") # change ( to \\( due to markdown format
-          choice.gsub!(/[A-Z]\. /, "#{choice[0]}.  ") # 2 spaces = cast choices into a list
-        end
-      end
-
-      answer = splited_strings[1][0] # parse answer
-      results.push({ question: question, choices: choices, answer: answer, topic: topic })
-    end
-    return results
+    return PandocRuby.convert(result_string, '--from=markdown', '--to=docx')
   end
 end

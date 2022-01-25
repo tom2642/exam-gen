@@ -3,6 +3,7 @@ class QuestionsController < ApplicationController
   include HtmlConvertable
   include ImagesAttachable
   include Objectifyable
+  include DocxConvertable
 
   def index
     questions = policy_scope(Question).where(subject: params[:subject_id])
@@ -31,7 +32,13 @@ class QuestionsController < ApplicationController
     redirect_to dashboard_path
   end
 
-  def generate
-    raise
+  def download_docx
+    selected_questions = []
+    params[:question_ids].each do |id|
+      selected_question = Question.find(id)
+      authorize selected_question
+      selected_questions.push(selected_question)
+    end
+    send_docx(selected_questions)
   end
 end
