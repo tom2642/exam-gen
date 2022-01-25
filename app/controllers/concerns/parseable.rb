@@ -2,7 +2,7 @@
 require 'pandoc-ruby'
 
 module Parseable
-  def docx_to_md(uploaded_file)
+  def docx_to_md(uploaded_file, billy)
     # write the tmp file io object to a file
     File.open(Rails.root.join('tmp', 'docx', uploaded_file.original_filename), 'wb') do |file|
       file.write(uploaded_file.read)
