@@ -8,6 +8,16 @@ module Parseable
       file.write(uploaded_file.read)
     end
 
+    return others_parse(uploaded_file) if billy == 'false'
+
+    return billy_parse(uploaded_file)
+  end
+
+  private
+
+  def billy_parse(uploaded_file)
+    results = []
+
     # convert the docx into string(markdown)
     raw_strings = PandocRuby.convert(["tmp/docx/#{uploaded_file.original_filename}"], '--from=docx', '--to=markdown', '--extract-media=tmp/')
                             .split(/Short Questions/)
@@ -18,7 +28,6 @@ module Parseable
     # raw_string #=> Question...\n\nA. Choice...\n\nAnswer:\n\nB\n\n....
     File.delete(Rails.root.join('tmp', 'docx', uploaded_file.original_filename)) # delete the docx
 
-    results = []
     raw_strings.each_with_index do |raw_string, index|
       # seperate images into different folder, each folder for one question
       if %r{.*!\[]\(tmp.*}.match?(raw_string)
@@ -38,7 +47,7 @@ module Parseable
       question.each { |line| line.gsub!(/\*\*/, '') unless line.include?('-------') } # remove bold unless table
 
       # Parse choices
-      unless question_and_choices[1].nil? # choice is not nil(due to not supporting alt content of docx)
+      if billy && !question_and_choices[1].nil? # choice is not nil(due to not supporting alt content of docx)
         choices = "A. #{question_and_choices[1]}".strip.split("\n\n") # split choices (A/B/C/D) into an array
         choices.each do |choice|
           choice.gsub!(/[A-Z]\. \(/, "#{choice[0]}. \\(") # change ( to \\( due to markdown format
@@ -47,6 +56,35 @@ module Parseable
       end
 
       answer = splited_strings[1][0] # parse answer
+      results.push({ question: question, choices: choices, answer: answer, topic: topic })
+    end
+    return results
+  end
+
+  def others_parse(uploaded_file)
+    results = []
+    raw_strings = PandocRuby.convert(["tmp/docx/#{uploaded_file.original_filename}"], '--from=docx', '--to=markdown', '--extract-media=tmp/')
+                            .split("\\[Question\\]\n\n")
+    raw_strings.delete_at(0)
+    # raw_string #=> [Question]...[Choices]...[Answer]\n\nB\n\n[Topic]....
+
+
+    raw_strings.each do |raw_string|
+      splited_strings = raw_string.strip.split("\n\n\\[Answer\\]\n\n") # [0] #=> question, choices, [1] #=> answer, topic
+
+      question = splited_strings.first.split("\n\n\\[Choices\\]\n\n").first.split("\n\n")
+      question.each { |line| line.gsub!(/\*\*/, '') unless line.include?('-------') } # remove bold unless table
+
+      choices = splited_strings.first.split("\n\n\\[Choices\\]\n\n")[1].split("\n\n")
+      alphabet = ('A'..'Z').to_a
+      choices.each_with_index do |choice, i|
+        choices[i] = choice[0] == '(' ? "#{alphabet[i]}.  \\#{choice}" : "#{alphabet[i]}.  #{choice}"
+      end
+
+      answer = splited_strings[1][0]
+
+      topic = splited_strings[1].split("\n\n\\[Topic\\]\n\n")[1].split("\n\n\\[Topic\\]\n\n").first
+
       results.push({ question: question, choices: choices, answer: answer, topic: topic })
     end
     return results

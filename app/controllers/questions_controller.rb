@@ -16,7 +16,6 @@ class QuestionsController < ApplicationController
 
   def create
     parsed_results = docx_to_md(params[:docx], params[:billy]) # Parseable
-
     # save every parsed results to db
     parsed_results.each_with_index do |result, index|
       # result[:topic], string -> Topic object
