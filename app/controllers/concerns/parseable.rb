@@ -18,26 +18,19 @@ module Parseable
   def billy_parse(uploaded_file)
     results = []
 
-    # convert the docx into string(markdown)
+    # convert the docx into string(markdown) and seperate the string into questions
     raw_strings = PandocRuby.convert(["tmp/docx/#{uploaded_file.original_filename}"], '--from=docx', '--to=markdown', '--extract-media=tmp/')
                             .split(/Short Questions/)
     raw_strings.delete_at(1) # delete short questions
     raw_strings = raw_strings.first.split(/Question code: .+\n\n/) # split into seperate questions
-    topic = raw_strings.first.gsub(/\*\*Chapter \d+ /, '').gsub(/\*\*[\s\S]+/, '')
+    topic = raw_strings.first.gsub(/\*\*Chapter \d+ /, '').gsub(/\*\*[\s\S]+/, '') # parse topic
     raw_strings.delete_at(0) # delete the part before the first question
     # raw_string #=> Question...\n\nA. Choice...\n\nAnswer:\n\nB\n\n....
-    File.delete(Rails.root.join('tmp', 'docx', uploaded_file.original_filename)) # delete the docx
+    delete_temp_docx(uploaded_file)
 
     raw_strings.each_with_index do |raw_string, index|
       # seperate images into different folder, each folder for one question
-      if %r{.*!\[]\(tmp.*}.match?(raw_string)
-        FileUtils.mkdir_p("tmp/media/#{index}") # create a folder for every questions that have images
-        raw_string.scan("![](tmp").size.times do
-          # For question having n images, move the first n images in media/ to media/#{index}/
-          first_image = Dir["tmp/media/*"].select { |path| path.include?("image") }.min # only select the files
-          FileUtils.mv first_image, "tmp/media/#{index}/#{first_image.gsub('tmp/media/', '')}"
-        end
-      end
+      move_images_into_sub_folders(raw_string, index) if %r{.*!\[]\(tmp.*}.match?(raw_string)
 
       splited_strings = raw_string.strip.split(/Answer:\W*/) # [0] #=> question and choices, [1] #=> answer
 
@@ -47,7 +40,7 @@ module Parseable
       question.each { |line| line.gsub!(/\*\*/, '') unless line.include?('-------') } # remove bold unless table
 
       # Parse choices
-      if billy && !question_and_choices[1].nil? # choice is not nil(due to not supporting alt content of docx)
+      unless question_and_choices[1].nil? # choice is not nil(due to not supporting alt content of docx)
         choices = "A. #{question_and_choices[1]}".strip.split("\n\n") # split choices (A/B/C/D) into an array
         choices.each do |choice|
           choice.gsub!(/[A-Z]\. \(/, "#{choice[0]}. \\(") # change ( to \\( due to markdown format
@@ -67,9 +60,12 @@ module Parseable
                             .split("\\[Question\\]\n\n")
     raw_strings.delete_at(0)
     # raw_string #=> [Question]...[Choices]...[Answer]\n\nB\n\n[Topic]....
+    delete_temp_docx(uploaded_file)
 
+    raw_strings.each_with_index do |raw_string, index|
+      # seperate images into different folder, each folder for one question
+      move_images_into_sub_folders(raw_string, index) if %r{.*!\[]\(tmp.*}.match?(raw_string)
 
-    raw_strings.each do |raw_string|
       splited_strings = raw_string.strip.split("\n\n\\[Answer\\]\n\n") # [0] #=> question, choices, [1] #=> answer, topic
 
       question = splited_strings.first.split("\n\n\\[Choices\\]\n\n").first.split("\n\n")
@@ -88,5 +84,18 @@ module Parseable
       results.push({ question: question, choices: choices, answer: answer, topic: topic })
     end
     return results
+  end
+
+  def delete_temp_docx(uploaded_file)
+    File.delete(Rails.root.join('tmp', 'docx', uploaded_file.original_filename)) # delete the docx
+  end
+
+  def move_images_into_sub_folders(raw_string, index)
+    FileUtils.mkdir_p("tmp/media/#{index}") # create a folder for every questions that have images
+    raw_string.scan("![](tmp").size.times do
+      # For question having n images, move the first n images in media/ to media/#{index}/
+      first_image = Dir["tmp/media/*"].select { |path| path.include?("image") }.min # only select the files
+      FileUtils.mv first_image, "tmp/media/#{index}/#{first_image.gsub('tmp/media/', '')}"
+    end
   end
 end

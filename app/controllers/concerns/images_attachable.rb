@@ -11,9 +11,9 @@ module ImagesAttachable
     end
 
     # change the markdown in question that indicates the path of its images
-    question.question.map do |line|
+    question.question.each do |line|
       # later when generating docx, the images from active record are saved in tmp/media/ first
-      line.gsub(%r{!\[]\(tmp//media/image}, "![](tmp//media/#{question.id}_")
+      line.gsub!(%r{!\[]\(tmp//media/image}, "![](tmp//media/#{question.id}_")
     end
     question.save!
   end
