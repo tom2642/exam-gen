@@ -44,6 +44,6 @@ class QuestionsController < ApplicationController
 
   def download_demo
     skip_authorization
-    redirect_to new_subject_question_path(params[:subject_id])
+    send_file 'public/examgen_demo.docx'
   end
 end
