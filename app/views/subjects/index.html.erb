@@ -1,9 +1,12 @@
 <div class="container">
+  <h4>Add a subject</h4>
   <%= simple_form_for @new_subject do |f| %>
     <%= f.input :grade, collection: 1..15 %>
     <%= f.input :name, label: 'Subject', collection: Subject.names.keys %>
     <%= f.submit 'Add', class: "btn btn-default btn-success" %>
   <% end %>
+  <hr>
+  <h4>Subjects</h4>
   <div class="subjects-grid">
     <% @subjects.each do |subject| %>
       <div class="subject">
