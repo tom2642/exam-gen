@@ -10,11 +10,25 @@
 }
 
 .questions-display {
-  width: 50vw;
+  width: 70vw;
   overflow-y: scroll;
+  h1 {
+    margin-left: 2.5rem;
+    margin-bottom: 0;
+  }
 }
 
 .question {
   background-color: white;
-  margin-bottom: 30px;
+  margin: 0.5rem 1.5rem 1.5rem 1.5rem;
+  border-radius: 1rem;
+  padding: 1rem;
+  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.15);
+  ol, label {
+    margin-bottom: 0;
+  }
+}
+
+.questions-submit {
+  margin: 1.5rem;
 }

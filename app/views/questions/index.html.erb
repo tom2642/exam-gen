@@ -3,6 +3,7 @@
   <%=  form_with url: download_docx_path, html: {class:"generator-flex"} do |f| %>
 
       <div class="questions-display">
+        <h1>Select questions</h1>
         <% @questions_and_htmls.each do |question_and_html| %>
           <div class="question">
             <%= f.check_box :question_ids, {multiple: true, id: "question_id_#{question_and_html[:question][:id]}", style: "display:none;"}, question_and_html[:question][:id], false %>
@@ -13,8 +14,9 @@
         <% end %>
       </div>
 
-      <div>
-        <%= f.submit "Submit" %>
+      <div class="questions-submit">
+        <p>You have selected n questions.</p>
+        <%= f.submit "Generate exam paper", class: "btn btn-success" %>
       </div>
 
   <% end %>
