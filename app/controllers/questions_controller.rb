@@ -7,14 +7,7 @@ class QuestionsController < ApplicationController
 
   def index
     questions = policy_scope(Question).where(subject: params[:subject_id])
-    # replace local image path with cloudnary url
-    questions.each do |question|
-      question.images.each do |image|
-        question.question.each do |line|
-          line.gsub!(%r{!\[\]\(tmp//media/.*\)}, "![](#{image.url})") if line.include?(image.filename.to_s)
-        end
-      end
-    end
+    replace_image_local_path_with_url(questions)
     @questions_and_htmls = md_to_html(questions) # HtmlConvertable
   end
 
