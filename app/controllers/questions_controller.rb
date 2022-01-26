@@ -39,6 +39,7 @@ class QuestionsController < ApplicationController
       authorize selected_question
       selected_questions.push(selected_question)
     end
+    save_images_to_tmp_media(selected_questions)
     send_docx(selected_questions)
   end
 end

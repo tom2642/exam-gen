@@ -7,6 +7,21 @@ module DocxConvertable
     send_data md_to_docx(selected_questions), filename: "#{fname}.docx"
   end
 
+  def save_images_to_tmp_media(selected_questions)
+    # selected_questions.each do |question|
+    #   question.images.all do |image|
+
+    #   end
+    # end
+    selected_questions.each do |question|
+      question.images.each do |image|
+        question.question.each do |line|
+          line.gsub!(%r{!\[\]\(tmp//media/.*\)}, "![](#{image.url})") if line.include?(image.filename.to_s)
+        end
+      end
+    end
+  end
+
   private
 
   def md_to_docx(selected_questions)
