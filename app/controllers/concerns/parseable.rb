@@ -79,7 +79,9 @@ module Parseable
 
       answer = splited_strings[1][0]
 
-      topic = splited_strings[1].split("\n\n\\[Topic\\]\n\n")[1].split("\n\n\\[Topic\\]\n\n").first
+      topic = if splited_strings[1].include?('Topic')
+                splited_strings[1].split("\n\n\\[Topic\\]\n\n")[1].split("\n\n\\[Topic\\]\n\n").first
+              end
 
       results.push({ question: question, choices: choices, answer: answer, topic: topic })
     end
