@@ -1,0 +1,22 @@
+.add-question-flexbox {
+  display: flex;
+}
+
+.add-question-forms {
+  width: 30vw;
+}
+
+.upload-form {
+  background-color: white;
+  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.15);
+  border-radius: 1rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  div {
+    margin-bottom: 0;
+  }
+}
+
+#docx-upload, #docx-upload-billy {
+  margin-bottom: 0.5rem;
+}

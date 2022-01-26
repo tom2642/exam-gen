@@ -12,7 +12,7 @@
 @import "components/index";
 @import "pages/index";
 @import "subjects/index";
-@import "questions/generator";
+@import "questions/index";
 
 body {
   background-color: $light-gray;
@@ -27,4 +27,8 @@ ul {
 a {
   text-decoration: none;
   display: inline-block;
+}
+
+h2 {
+  margin-bottom: 1rem;
 }

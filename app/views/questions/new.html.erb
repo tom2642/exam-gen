@@ -1,21 +1,45 @@
 <div class="container">
-  <%=  form_with url: subject_questions_path do |f| %>
-    <%= f.hidden_field :billy, value: false %>
-    <div class="form-group">
-      <label for="docx-upload"></label>
-      <%= f.file_field :docx, accept: '.docx', class: 'form-control-file', id: "docx-upload" %>
-      <%= f.submit 'Upload docx', class: "btn btn-success" %>
-    </div>
-  <% end %>
-
-  <% if current_user[:billy] %>
-    <%=  form_with url: subject_questions_path do |f| %>
-      <%= f.hidden_field :billy, value: true %>
-      <div class="form-group">
-        <label for="docx-upload-billy"></label>
-        <%= f.file_field :docx, accept: '.docx', class: 'form-control-file', id: "docx-upload-billy" %>
-        <%= f.submit 'Upload docx (Billy)', class: "btn btn-success" %>
+  <h2>Add questions to grade <%= "#{@subject[:grade]} #{@subject[:name]}" %></h2>
+  <div class="add-questions-flexbox">
+    <div class="add-question-forms">
+      <div class="upload-form">
+        <h4>Upload questions document (docx)</h4>
+        <%=  form_with url: subject_questions_path do |f| %>
+          <%= f.hidden_field :billy, value: false %>
+          <div class="form-group">
+            <%= f.file_field :docx, accept: '.docx', class: 'form-control-file', id: "docx-upload" %>
+            <%= f.submit 'Upload', class: "btn btn-success" %>
+          </div>
+        <% end %>
       </div>
-    <% end %>
-  <% end %>
+
+
+      <div class="upload-form">
+        <h4>Download demo document</h4>
+        <%= form_with url: download_demo_path do |f| %>
+          <%= f.hidden_field :subject_id, value: @subject[:id] %>
+          <div class="form-group">
+            <%= f.submit 'Download', class: "btn btn-success" %>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="upload-form">
+        <% if current_user[:billy] %>
+          <h4>Upload Billy's document (docx)</h4>
+          <%=  form_with url: subject_questions_path do |f| %>
+            <%= f.hidden_field :billy, value: true %>
+            <div class="form-group">
+              <%= f.file_field :docx, accept: '.docx', class: 'form-control-file', id: "docx-upload-billy" %>
+              <%= f.submit 'Upload (Billy)', class: "btn btn-success" %>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="questions-template">
+    </div>
+  </div>
+
 </div>

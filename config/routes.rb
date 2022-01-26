@@ -6,4 +6,5 @@ Rails.application.routes.draw do
     resources :questions, only: %i[index new create] # TODO: edit update destroy
   end
   post '/download_docx', to: 'questions#download_docx', as: :download_docx
+  post '/download_demo', to: 'questions#download_demo', as: :download_demo
 end

@@ -1,8 +1,11 @@
-<div class="container">
+<div class="container dashboard">
+  <h2>Dashboard</h2>
   <h4>Add a subject</h4>
-  <%= simple_form_for @new_subject do |f| %>
+  <%= simple_form_for @new_subject, html: { class: 'form-inline' } do |f| %>
     <%= f.input :grade, collection: 1..15 %>
+    <span class="empty-space"></span>
     <%= f.input :name, label: 'Subject', collection: Subject.names.keys %>
+    <span class="empty-space"></span>
     <%= f.submit 'Add', class: "btn btn-default btn-success" %>
   <% end %>
   <hr>

@@ -11,7 +11,8 @@ class QuestionsController < ApplicationController
   end
 
   def new
-    skip_authorization
+    @subject = Subject.find(params[:subject_id])
+    authorize @subject
   end
 
   def create
@@ -39,5 +40,10 @@ class QuestionsController < ApplicationController
       selected_questions.push(selected_question)
     end
     send_docx(selected_questions)
+  end
+
+  def download_demo
+    skip_authorization
+    redirect_to new_subject_question_path(params[:subject_id])
   end
 end
