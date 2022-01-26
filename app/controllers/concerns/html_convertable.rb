@@ -16,14 +16,4 @@ module HtmlConvertable
 
     return questions_and_htmls
   end
-
-  def replace_image_local_path_with_url(questions)
-    questions.each do |question|
-      question.images.each do |image|
-        question.question.each do |line|
-          line.gsub!(%r{!\[\]\(tmp//media/.*\)}, "![](#{image.url})") if line.include?(image.filename.to_s)
-        end
-      end
-    end
-  end
 end

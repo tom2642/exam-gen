@@ -7,7 +7,6 @@ class QuestionsController < ApplicationController
 
   def index
     questions = policy_scope(Question).where(subject: params[:subject_id])
-    replace_image_local_path_with_url(questions)
     @questions_and_htmls = md_to_html(questions) # HtmlConvertable
   end
 
@@ -39,7 +38,6 @@ class QuestionsController < ApplicationController
       authorize selected_question
       selected_questions.push(selected_question)
     end
-    save_images_to_tmp_media(selected_questions)
     send_docx(selected_questions)
   end
 end

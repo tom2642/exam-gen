@@ -6,14 +6,15 @@ module ImagesAttachable
     unless Dir["tmp/media/#{index}"].empty? # unless the question doesn't have a image
       # for all the images inside the folder of their quesiton, attach imagen.jpg as #{question.id}_n.jpg to question
       Dir["tmp/media/#{index}/*"].sort.each do |fname|
-        question.images.attach(io: File.open(fname), filename: fname.gsub(%r{tmp/media/./image}, "#{question.id}_"))
+        question.images.attach(io: File.open(fname), filename: fname.gsub(%r{tmp.*/}, ''))
       end
     end
 
-    # change the markdown in question that indicates the path of its images
-    question.question.each do |line|
-      # later when generating docx, the images from active record are saved in tmp/media/ first
-      line.gsub!(%r{!\[]\(tmp//media/image}, "![](tmp//media/#{question.id}_")
+    # replace local image path in md to cloudinary url
+    question.images.each do |image|
+      question.question.each do |line|
+        line.gsub!(%r{!\[\]\(.*\)}, "![](#{image.url})") if line.include?(image.filename.to_s)
+      end
     end
     question.save!
   end
