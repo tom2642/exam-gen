@@ -1,9 +1,10 @@
-.add-question-flexbox {
+.add-questions-flexbox {
   display: flex;
 }
 
 .add-question-forms {
   width: 30vw;
+  margin-right: 3rem;
 }
 
 .upload-form {
@@ -19,4 +20,7 @@
 
 #docx-upload, #docx-upload-billy {
   margin-bottom: 0.5rem;
+}
+
+.questions-template {
 }
