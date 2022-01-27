@@ -23,8 +23,10 @@ import "bootstrap";
 
 // Internal imports, e.g:
 import { initUpdateQuestionsOnSelect } from '../components/questions_selection_form';
+import { initEnableButtonOnUploadFile } from '../components/questions_upload_form';
 
 document.addEventListener('turbolinks:load', () => {
   // Call your functions here
   initUpdateQuestionsOnSelect();
+  initEnableButtonOnUploadFile();
 });

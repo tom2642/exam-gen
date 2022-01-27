@@ -7,8 +7,8 @@
         <%=  form_with url: subject_questions_path do |f| %>
           <%= f.hidden_field :billy, value: false %>
           <div class="form-group">
-            <%= f.file_field :docx, accept: '.docx', class: 'form-control-file', id: "docx-upload" %>
-            <%= f.submit 'Upload', class: "btn btn-success" %>
+            <%= f.file_field :docx, accept: '.docx', class: 'form-control-file file-field', id: "docx-upload" %>
+            <%= f.submit 'Upload', class: "btn btn-success file-button", disabled: true %>
           </div>
         <% end %>
       </div>
@@ -30,8 +30,8 @@
           <%=  form_with url: subject_questions_path do |f| %>
             <%= f.hidden_field :billy, value: true %>
             <div class="form-group">
-              <%= f.file_field :docx, accept: '.docx', class: 'form-control-file', id: "docx-upload-billy" %>
-              <%= f.submit 'Upload (Billy)', class: "btn btn-success" %>
+              <%= f.file_field :docx, accept: '.docx', class: 'form-control-file file-field', id: "docx-upload-billy" %>
+              <%= f.submit 'Upload (Billy)', class: "btn btn-success file-button", disabled: true %>
             </div>
           <% end %>
         </div>
