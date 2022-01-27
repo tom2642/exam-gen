@@ -41,7 +41,7 @@ const initTopicSeletion = () => {
       let matchedTopic = false;
       question.classList.forEach((className) => {
         console.log(className.replaceAll('-', ' '));
-        if (className.replaceAll('-', ' ') == selection.value) {
+        if (className.replaceAll('-', ' ') == selection.value || selection.value == 'All') {
           matchedTopic = true;
         }
         if (matchedTopic) {

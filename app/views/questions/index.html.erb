@@ -9,6 +9,7 @@
         <div class="form-group topic-selection">
           <label for="topic">Topic</label>
           <select class="form-control" id="topic">
+            <option>All</option>
             <% @topics.each do |topic| %>
               <option><%= topic %></option>
             <% end %>
@@ -19,6 +20,7 @@
           <div class="question <%= question_and_html[:question].topic[:name].gsub(' ', '-') %>">
             <%= f.check_box :question_ids, {multiple: true, id: "question_id_#{question_and_html[:question][:id]}", class: "selection-checkbox", style: "display:none;"}, question_and_html[:question][:id], false %>
             <label for="<%= "question_id_#{question_and_html[:question][:id]}" %>">
+              <p>Topic: <%= question_and_html[:question].topic[:name] %></p>
               <%= question_and_html[:html].html_safe %>
             </label>
           </div>
