@@ -7,6 +7,7 @@ class QuestionsController < ApplicationController
 
   def index
     questions = policy_scope(Question).where(subject: params[:subject_id])
+    @topics = questions.map { |question| question.topic[:name] }.uniq
     @questions_and_htmls = md_to_html(questions) # HtmlConvertable
   end
 

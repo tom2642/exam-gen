@@ -4,6 +4,17 @@
 
       <div class="questions-display">
         <h1>Select questions</h1>
+
+        <%# topic selection %>
+        <div class="form-group topic-selection">
+          <label for="topic">Topic</label>
+          <select class="form-control" id="topic">
+            <% @topics.each do |topic| %>
+              <option><%= topic %></option>
+            <% end %>
+          </select>
+        </div>
+        <%# display questions %>
         <% @questions_and_htmls.each do |question_and_html| %>
           <div class="question">
             <%= f.check_box :question_ids, {multiple: true, id: "question_id_#{question_and_html[:question][:id]}", class: "selection-checkbox", style: "display:none;"}, question_and_html[:question][:id], false %>
