@@ -32,4 +32,26 @@ const initUpdateQuestionsOnSelect = () => {
   });
 }
 
-export { initUpdateQuestionsOnSelect };
+const initTopicSeletion = () => {
+  const selection = document.getElementById("topic");
+  const questions = document.querySelectorAll(".question");
+
+  selection.addEventListener("change", () => {
+    questions.forEach((question) => {
+      let matchedTopic = false;
+      question.classList.forEach((className) => {
+        console.log(className.replaceAll('-', ' '));
+        if (className.replaceAll('-', ' ') == selection.value) {
+          matchedTopic = true;
+        }
+        if (matchedTopic) {
+          question.hidden = false;
+        } else {
+          question.hidden = true;
+        }
+      });
+    });
+  });
+}
+
+export { initUpdateQuestionsOnSelect, initTopicSeletion };
