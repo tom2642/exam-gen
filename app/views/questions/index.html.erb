@@ -6,7 +6,7 @@
         <h1>Select questions</h1>
         <% @questions_and_htmls.each do |question_and_html| %>
           <div class="question">
-            <%= f.check_box :question_ids, {multiple: true, id: "question_id_#{question_and_html[:question][:id]}", style: "display:none;"}, question_and_html[:question][:id], false %>
+            <%= f.check_box :question_ids, {multiple: true, id: "question_id_#{question_and_html[:question][:id]}", class: "selection-checkbox", style: "display:none;"}, question_and_html[:question][:id], false %>
             <label for="<%= "question_id_#{question_and_html[:question][:id]}" %>">
               <%= question_and_html[:html].html_safe %>
             </label>

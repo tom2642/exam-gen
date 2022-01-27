@@ -1,15 +1,22 @@
 const initUpdateQuestionsOnSelect = () => {
-  const bookmarkForm = document.getElementById("new_bookmark");
-  const bookmarkRadios = document.querySelectorAll(".bookmark-radio");
-  const cards = document.querySelectorAll(".card");
+  const selectionForm = document.querySelector(".questions-display");
+  const selectionCheckboxes = document.querySelectorAll(".selection-checkbox");
+  const questions = document.querySelectorAll(".question");
 
-  bookmarkForm.addEventListener("click", () => {
-    bookmarkRadios.forEach((radio) => {
-      if (radio.checked) {
-        radio.nextElementSibling.classList.add("chosen");
+  selectionForm.addEventListener("click", () => {
+    selectionCheckboxes.forEach((checkbox) => {
+      if (checkbox.checked) {
+        checkbox.parentElement.classList.add("chosen");
       } else {
-        radio.nextElementSibling.classList.remove("chosen");
+        checkbox.parentElement.classList.remove("chosen");
       }
+    });
+  });
+
+  questions.forEach(question => {
+    question.addEventListener("click", (event) => {
+      const checkbox = question.getElementsByTagName("input")[0];
+      checkbox.checked = !(checkbox.checked);
     });
   });
 }
