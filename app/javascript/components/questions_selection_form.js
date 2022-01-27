@@ -23,8 +23,28 @@ const initUpdateQuestionsOnSelect = () => {
 
   questions.forEach(question => {
     question.addEventListener("click", (event) => {
+      // toggle checkbox
       const checkbox = question.getElementsByTagName("input")[0];
       checkbox.checked = !(checkbox.checked);
+
+      // update styles of (un)chosen questions
+      // count number of selections
+      let count = 0;
+      selectionCheckboxes.forEach((checkbox) => {
+        if (checkbox.checked) {
+          checkbox.parentElement.classList.add("chosen");
+        } else {
+          checkbox.parentElement.classList.remove("chosen");
+        }
+        if (checkbox.checked) { count++ }
+      });
+
+      // disable button if no questions selected
+      if (count === 0) {
+        generate_button.disabled = true;
+      } else { generate_button.disabled = false; }
+
+      selected_count.innerText = `You have selected ${count} questions.`
     });
   });
 }
