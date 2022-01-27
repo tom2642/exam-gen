@@ -15,8 +15,8 @@
       </div>
 
       <div class="questions-submit">
-        <p>You have selected n questions.</p>
-        <%= f.submit "Generate exam paper", class: "btn btn-success" %>
+        <p id="selected_count">You have selected 0 questions.</p>
+        <%= f.submit "Generate exam paper", class: "btn btn-success", disabled: true, id: "generate-button" %>
       </div>
 
   <% end %>
