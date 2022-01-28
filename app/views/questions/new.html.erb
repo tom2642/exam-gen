@@ -3,18 +3,6 @@
   <div class="add-questions-flexbox">
     <div class="add-question-forms">
       <div class="upload-form">
-        <h4>Upload questions document (docx)</h4>
-        <%=  form_with url: subject_questions_path do |f| %>
-          <%= f.hidden_field :billy, value: false %>
-          <div class="form-group">
-            <%= f.file_field :docx, accept: '.docx', class: 'form-control-file file-field', id: "docx-upload" %>
-            <%= f.submit 'Upload', class: "btn btn-success file-button", disabled: true %>
-          </div>
-        <% end %>
-      </div>
-
-
-      <div class="upload-form">
         <h4>Download demo document</h4>
         <%= form_with url: download_demo_path do |f| %>
           <%= f.hidden_field :subject_id, value: @subject[:id] %>
@@ -24,9 +12,22 @@
         <% end %>
       </div>
 
+      <div class="upload-form">
+        <h4>Upload questions document (docx)</h4>
+        <p>Document with too much content may break the app (around 85 pages)</p>
+        <%=  form_with url: subject_questions_path do |f| %>
+          <%= f.hidden_field :billy, value: false %>
+          <div class="form-group">
+            <%= f.file_field :docx, accept: '.docx', class: 'form-control-file file-field', id: "docx-upload" %>
+            <%= f.submit 'Upload', class: "btn btn-success file-button", disabled: true %>
+          </div>
+        <% end %>
+      </div>
+
       <% if current_user[:billy] %>
         <div class="upload-form">
           <h4>Upload Billy's document (docx)</h4>
+          <p>Document with too much content may break the app (around 85 pages)</p>
           <%=  form_with url: subject_questions_path do |f| %>
             <%= f.hidden_field :billy, value: true %>
             <div class="form-group">

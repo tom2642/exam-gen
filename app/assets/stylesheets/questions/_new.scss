@@ -3,7 +3,7 @@
 }
 
 .add-question-forms {
-  width: 30vw;
+  min-width: 31.5vw;
   margin-right: 3rem;
 }
 
@@ -15,6 +15,10 @@
   margin-bottom: 1rem;
   div {
     margin-bottom: 0;
+  }
+  p {
+    opacity: 0.6;
+    margin-bottom: 0.5rem;
   }
 }
 
