@@ -48,6 +48,7 @@ module Parseable
   end
 
   def others_parse(uploaded_file)
+    raise
     results = []
     raw_strings = PandocRuby.convert(uploaded_file, '--from=docx', '--to=markdown', '--extract-media=tmp/')
                             .split("\\[Question\\]\n\n")
