@@ -9,13 +9,17 @@
         <div class="form-group topic-selection">
           <label for="topic">Topic</label>
           <select class="form-control" id="topic">
-            <option>All</option>
+            <% unless @topics.size == 1 %>
+              <option>All</option>
+            <% end %>
             <% @topics.sort.each do |topic| %>
               <% unless topic == "Other" %>
                 <option><%= topic %></option>
               <% end %>
             <% end %>
-            <option>Other</option>
+            <% if @topics.include?("Other") %>
+              <option>Other</option>
+            <% end %>
           </select>
         </div>
         <%# display questions %>
