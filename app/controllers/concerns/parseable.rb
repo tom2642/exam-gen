@@ -4,12 +4,7 @@ require 'pandoc-ruby'
 module Parseable
   def docx_to_md(uploaded_file, billy)
     # write the tmp file io object to a file
-    File.open(Rails.root.join('tmp', 'docx', uploaded_file.original_filename), 'wb') do |file|
-      file.write(uploaded_file.read)
-    end
-
     return others_parse(uploaded_file) if billy == 'false'
-
     return billy_parse(uploaded_file)
   end
 
@@ -17,16 +12,14 @@ module Parseable
 
   def billy_parse(uploaded_file)
     results = []
-
     # convert the docx into string(markdown) and seperate the string into questions
-    raw_strings = PandocRuby.convert(["tmp/docx/#{uploaded_file.original_filename}"], '--from=docx', '--to=markdown', '--extract-media=tmp/')
+    raw_strings = PandocRuby.convert(uploaded_file.read.force_encoding("UTF-8"), '--from=docx', '--to=markdown', '--extract-media=tmp/')
                             .split(/Short Questions/)
     raw_strings.delete_at(1) # delete short questions
     raw_strings = raw_strings.first.split(/Question code: .+\n\n/) # split into seperate questions
     topic = raw_strings.first.gsub(/\*\*Chapter \d+ /, '').gsub(/\*\*[\s\S]+/, '') # parse topic
     raw_strings.delete_at(0) # delete the part before the first question
     # raw_string #=> Question...\n\nA. Choice...\n\nAnswer:\n\nB\n\n....
-    delete_temp_docx(uploaded_file)
 
     raw_strings.each_with_index do |raw_string, index|
       # seperate images into different folder, each folder for one question
@@ -56,11 +49,10 @@ module Parseable
 
   def others_parse(uploaded_file)
     results = []
-    raw_strings = PandocRuby.convert(["tmp/docx/#{uploaded_file.original_filename}"], '--from=docx', '--to=markdown', '--extract-media=tmp/')
+    raw_strings = PandocRuby.convert(uploaded_file.read.force_encoding("UTF-8"), '--from=docx', '--to=markdown', '--extract-media=tmp/') #
                             .split("\\[Question\\]\n\n")
     raw_strings.delete_at(0)
     # raw_string #=> [Question]...[Choices]...[Answer]\n\nB\n\n[Topic]....
-    delete_temp_docx(uploaded_file)
 
     raw_strings.each_with_index do |raw_string, index|
       # seperate images into different folder, each folder for one question
@@ -88,10 +80,6 @@ module Parseable
       results.push({ question: question, choices: choices, answer: answer, topic: topic })
     end
     return results
-  end
-
-  def delete_temp_docx(uploaded_file)
-    File.delete(Rails.root.join('tmp', 'docx', uploaded_file.original_filename)) # delete the docx
   end
 
   def move_images_into_sub_folders(raw_string, index)
