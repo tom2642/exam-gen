@@ -18,7 +18,8 @@
         <p><%= subject.questions.count %> questions</p>
         <%= link_to 'add questions', new_subject_question_path(subject) %><br>
         <%= link_to 'generate paper', subject_questions_path(subject) %><br>
-        <%= link_to 'delete', subject_path(subject), method: :delete %>
+        <hr>
+        <%= link_to 'delete', subject_path(subject), method: :delete, style: "color: #dc143c" %>
       </div>
     <% end %>
   </div>
