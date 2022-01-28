@@ -17,7 +17,7 @@ class QuestionsController < ApplicationController
   end
 
   def create
-    parsed_results = docx_to_md(params[:docx], params[:billy]) # Parseable
+    parsed_results = docx_to_md(params[:docx].read.force_encoding("UTF-8"), params[:billy]) # Parseable
     # save every parsed results to db
     parsed_results.each_with_index do |result, index|
       objectify_topic(result) unless result[:topic].nil? # result[:topic], string -> Topic object

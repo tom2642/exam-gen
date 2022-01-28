@@ -13,7 +13,7 @@ module Parseable
   def billy_parse(uploaded_file)
     results = []
     # convert the docx into string(markdown) and seperate the string into questions
-    raw_strings = PandocRuby.convert(uploaded_file.read.force_encoding("UTF-8"), '--from=docx', '--to=markdown', '--extract-media=tmp/')
+    raw_strings = PandocRuby.convert(uploaded_file, '--from=docx', '--to=markdown', '--extract-media=tmp/')
                             .split(/Short Questions/)
     raw_strings.delete_at(1) # delete short questions
     raw_strings = raw_strings.first.split(/Question code: .+\n\n/) # split into seperate questions
@@ -49,7 +49,7 @@ module Parseable
 
   def others_parse(uploaded_file)
     results = []
-    raw_strings = PandocRuby.convert(uploaded_file.read.force_encoding("UTF-8"), '--from=docx', '--to=markdown', '--extract-media=tmp/')
+    raw_strings = PandocRuby.convert(uploaded_file, '--from=docx', '--to=markdown', '--extract-media=tmp/')
                             .split("\\[Question\\]\n\n")
     raw_strings.delete_at(0)
     # raw_string #=> [Question]...[Choices]...[Answer]\n\nB\n\n[Topic]....
