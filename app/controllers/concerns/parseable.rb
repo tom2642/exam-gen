@@ -51,6 +51,7 @@ module Parseable
     results = []
     raw_strings = PandocRuby.convert(uploaded_file.read.force_encoding("UTF-8"), '--from=docx', '--to=markdown', '--extract-media=tmp/') #
                             .split("\\[Question\\]\n\n")
+    raise
     raw_strings.delete_at(0)
     # raw_string #=> [Question]...[Choices]...[Answer]\n\nB\n\n[Topic]....
 
