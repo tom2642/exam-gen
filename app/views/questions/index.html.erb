@@ -10,9 +10,12 @@
           <label for="topic">Topic</label>
           <select class="form-control" id="topic">
             <option>All</option>
-            <% @topics.each do |topic| %>
-              <option><%= topic %></option>
+            <% @topics.sort.each do |topic| %>
+              <% unless topic == "Other" %>
+                <option><%= topic %></option>
+              <% end %>
             <% end %>
+            <option>Other</option>
           </select>
         </div>
         <%# display questions %>
