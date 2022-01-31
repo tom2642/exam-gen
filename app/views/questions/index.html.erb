@@ -29,6 +29,7 @@
             <label for="<%= "question_id_#{question_and_html[:question][:id]}" %>">
               <p>Topic: <%= question_and_html[:question].topic[:name] %></p>
               <%= question_and_html[:html].html_safe %>
+              <p>Answer: <%= question_and_html[:question][:answer] %></p>
             </label>
           </div>
         <% end %>
