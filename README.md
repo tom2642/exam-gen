@@ -2,28 +2,44 @@
 
 ## Description
 
+My teacher friend Billy is not happy that way too much of his time is spent on deadling with Microsoft Word when creating exam papers. Using Ruby on Rails, ExamGen is created to automate the chores.
 
-Provide a short description explaining the what, why, and how of your project. Use the following questions as a guide:
+Using Pandoc to convert docx to markdowns, it can parse question banks into its PostgreSQL database while preserving images and formats like tables.
 
-- What was your motivation?
-- Why did you build this project? (Note: the answer is not "Because it was a homework assignment.")
-- What problem does it solve?
-- What did you learn?
+Preview of questions is available on the site by converting the markdowns to HTML. Users can then choose questions and download the generated docx with correct formatting.
+
+A basic authentication and authorization system is implemented using Devise and Pundit gems.
+
+The app is hosted on Heroku. Image files are stored on Cloudinary and are linked to model objects via Active Storage.
+
+It was developed as the final project of my coding bootcamp.
 
 ## Usage
 
-Provide instructions and examples for use. Include screenshots as needed.
+After logging in, the user can see a dashboard and add subjects if needed.
 
-To add a screenshot, create an `assets/images` folder in your repository and upload your screenshot to it. Then, using the relative filepath, add it to your README using the following syntax:
+```md
+![dashboard screenshot](assets/images/dashboard.jpg)
+```
 
-    ```md
-    ![alt text](assets/images/screenshot.png)
-    ```
+In the questions uploading page, user can download a demo question bank document or upload their documents for the app to parse. The "Upload Billy's document" section is only available for my friend's account and it parses documents with very specific formatting that my friend possesses.
+
+```md
+![upload page screenshot](assets/images/add_questions.jpg)
+```
+
+In the document generation page, previews of questions are available and can be filtered by topic. User can choose the questions they want and download the product (.docx) by clicking the generate button.
+
+```md
+![generator screenshot](assets/images/generator.jpg)
+```
+
+Screenshot of a generated document.
+
+```md
+![upload page screenshot](assets/images/docx_ss.jpg)
+```
 
 ## License
 
 Licensed under the MIT license.
-
-## Features
-
-If your project has a lot of features, list them here.
