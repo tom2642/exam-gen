@@ -18,19 +18,19 @@ It was developed as the final project of my coding bootcamp.
 
 After logging in, the user can see a dashboard and add subjects if needed.
 
-![dashboard screenshot](app/assets/images/dashboard.jpg)
+<kbd>![dashboard screenshot]<img src="app/assets/images/dashboard.jpg" width="300"></kbd>
 
 In the questions uploading page, user can download a demo question bank document or upload their documents for the app to parse. The "Upload Billy's document" section is only available for my friend's account and it parses documents with very specific formatting that my friend possesses.
 
-![upload page screenshot](app/assets/images/add_questions.jpg)
+<kbd>![upload page screenshot]<img src="app/assets/images/add_questions.jpg" width="300"></kbd>
 
 In the document generation page, previews of questions are available and can be filtered by topic. User can choose the questions they want and download the product (.docx) by clicking the generate button.
 
-![generator screenshot](app/assets/images/generator.jpg)
+<kbd>![generator screenshot]<img src="app/assets/images/generator.jpg" width="300"></kbd>
 
 Screenshot of a generated document.
 
-![upload page screenshot](app/assets/images/docx_ss.jpg)
+<kbd>![upload page screenshot]<img src="app/assets/images/docx_ss.jpg" width="300"></kbd>
 
 ## License
 
