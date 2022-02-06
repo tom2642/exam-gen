@@ -20,7 +20,7 @@ After logging in, the user can see a dashboard and add subjects if needed.
 
 <kbd><img src="app/assets/images/dashboard.jpg" width="700"></kbd>
 
-In the questions uploading page, user can download a demo question bank document or upload their documents for the app to parse. The "Upload Billy's document" section is only available for my friend's account and it parses documents with very specific formatting that my friend possesses.
+In the questions uploading page, user can download a demo question bank document or upload their documents for the app to parse. The "Upload Billy's document" section is only available for my friend's account and it parses documents with very specific formatting which my friend possesses.
 
 <kbd><img src="app/assets/images/add_questions.jpg" width="700"></kbd>
 
