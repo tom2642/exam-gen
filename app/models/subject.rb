@@ -5,6 +5,7 @@ class Subject < ApplicationRecord
 
   validates :grade, :name, presence: true
   validates :grade, inclusion: { in: 1..15 }, numericality: { only_integer: true }
+  # no duplicate subjects for a User
   validates :grade, uniqueness: { scope: %i[name user_id] }
 
   enum name: [
