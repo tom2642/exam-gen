@@ -17,15 +17,17 @@ class QuestionsController < ApplicationController
   end
 
   def create
-    parsed_results = docx_to_md(params[:docx].read.force_encoding("UTF-8"), params[:billy]) # Parseable
-    # save every parsed results to db
+    # Parseable, parse docx into markdown
+    parsed_results = docx_to_md(params[:docx].read.force_encoding("UTF-8"), params[:billy])
+    # save every parsed results(markdown) into db
     parsed_results.each_with_index do |result, index|
-      objectify_topic(result) unless result[:topic].nil? # result[:topic], string -> Topic object
+      # Objectifyable, transform result[:topic] from string to Topic object
+      objectify_topic(result) unless result[:topic].nil?
       question = Question.new(result)
       question.subject = Subject.find(params[:subject_id])
       authorize question
       question.save!
-      attach_images(question, index)
+      attach_images(question, index) # ImagesAttachable
     end
 
     FileUtils.rm_rf(Dir['tmp/media/*']) # delete local tmp images
@@ -34,12 +36,13 @@ class QuestionsController < ApplicationController
 
   def download_docx
     selected_questions = []
+    # get all the questions from db according to user input
     params[:question_ids].each do |id|
       selected_question = Question.find(id)
       authorize selected_question
       selected_questions.push(selected_question)
     end
-    send_docx(selected_questions)
+    send_docx(selected_questions) # DocxConvertable
   end
 
   def download_demo
