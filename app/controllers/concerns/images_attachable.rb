@@ -10,7 +10,7 @@ module ImagesAttachable
       end
     end
 
-    # replace local image path in md to cloudinary url
+    # replace local image path in markdown with cloudinary url
     question.images.each do |image|
       question.question.each do |line|
         line.gsub!(%r{!\[\]\(.*\)}, "![](#{image.url})") if line.include?(image.filename.to_s)
