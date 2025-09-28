@@ -1,4 +1,4 @@
-# ExamGen (https://examgen718.herokuapp.com)
+# ExamGen
 
 ## Description
 
