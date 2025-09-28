@@ -10,7 +10,7 @@ Preview of questions is available on the site by converting the markdowns to HTM
 
 A basic authentication and authorization system is implemented using Devise and Pundit gems.
 
-The app is hosted on Heroku. Image files are stored on Cloudinary and are linked to model objects via Active Storage.
+The app was hosted on Heroku. Image files are stored on Cloudinary and are linked to model objects via Active Storage. (Currently not available)
 
 It was developed as the final project of my coding bootcamp.
 
